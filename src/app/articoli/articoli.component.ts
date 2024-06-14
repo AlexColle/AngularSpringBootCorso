@@ -1,21 +1,51 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ArticoliDataService } from '../services/data/articoli-data.service';
-import { ActivatedRoute } from '@angular/router';
 
 export class Articoli {
 
   constructor(
-    public codArt: String,
-    public descrizione: String,
-    public um: String,
+    public codArt: string,
+    public descrizione: string,
+    public um: string,
     public pzCart: number,
     public pesoNetto: number,
     public prezzo: number,
-    public idStatoArt: number,
-    public isactive: boolean,
-    public dataCreaz: Date
+    public idStatoArt: string,
+    public dataCreaz: Date,
+    public famAssort: FamAss,
+    public iva: Iva
+
   ) { }
+
 }
+
+export class Iva {
+
+  constructor(
+    public idIva: number,
+    public descrizione: string,
+    public aliquota: number
+
+  ) {}
+
+}
+
+export class FamAss {
+  constructor(
+  public id: number,
+  public descrizione: string
+  ) {}
+}
+
+export class ApiMsg {
+
+  constructor(
+    public code: string,
+    public message: string
+  ) {}
+}
+
 
 @Component({
   selector: 'app-articoli',
@@ -25,43 +55,94 @@ export class Articoli {
 export class ArticoliComponent implements OnInit {
 
   NumArt = 0;
-  pagina: number = 1;
-  righe: number = 10;
 
-  articoli : Articoli[] = [];
+  pagina = 1;
+  righe = 10;
 
-  /*articoli = [
-    new Articoli('014600301','BARILLA FARINA 1 KG','PZ',24,1,1.09,true,new Date()),
-    new Articoli('013500121','BARILLA PASTA GR.500 N.70 1/2 PENNE','PZ',30,0.5,1.3,true,new Date()),
-    new Articoli('007686402','BURGER DI CECI 300 GR','PZ',8,0.3,6.46,true,new Date()),
-    new Articoli('057549001','POLPETTE DI CECI 400 GR','PZ',12,0.4,5.97,true,new Date())
-  ]*/
+  apiMsg!: ApiMsg;
+  messaggio!: string;
+
+  filter: string = '';
+  articolo!: Articoli;
+  articoli!: Articoli[];
   
-filter: any;
-  route: any;
+  constructor(private route: ActivatedRoute, private router: Router, private articoliService: ArticoliDataService) { }
 
-  constructor(private articoliService : ArticoliDataService) { }
+  ngOnInit() {
 
-  ngOnInit()  {
-    this.filter = this.route.snapshot.params['filter'];
+    this.filter = this.route.snapshot.params['filter']
+
     if (this.filter != undefined) {
       this.getArticoli(this.filter);
     }
+  
   }
 
   refresh() {
+    this.messaggio = "";
     this.getArticoli(this.filter);
+    }
+
+  public getArticoli(filter: string) {
+
+    this.articoliService.getArticoliByCodArt(filter).subscribe(
+      response => {
+
+        this.articoli = [];
+
+        console.log('Ricerchiamo articoli per codart con filtro ' + filter);
+
+        this.articolo = response;
+        console.log(this.articolo);
+
+        this.articoli.push(this.articolo);
+        this.NumArt = this.articoli.length
+        console.log(this.articoli.length);
+
+      },
+      error => {
+        //console.log(error);
+        console.log(error.error.messaggio);
+    
+        console.log('Ricerchiamo per descrizione con filtro ' + filter);
+        this.articoliService.getArticoliByDescription(filter).subscribe(
+          response => {
+
+            this.articoli = response;
+            console.log(this.articoli);
+            
+            this.NumArt = this.articoli.length
+            console.log(this.articoli.length);
+
+          },
+          error => {
+            
+          }
+        )
+      } 
+    )
   }
 
-  public getArticoli(filter : String) {
-    this.articoliService.getArticoli(filter).subscribe(Response => {
-      console.log('Ricerchiamo articoli con filtro: '+ filter);
+  Elimina(CodArt: string) {
+    console.log(`Eliminazione articolo ${CodArt}`);
 
-      this.articoli = Response;
-      console.log(this.articoli);
+    this.articoliService.delArticoloByCodArt(CodArt).subscribe(
+      response => {
+        
+        this.refresh();
+        this.apiMsg = response;
+        this.messaggio = this.apiMsg.message;
+        
+      }
+    )
+    
+  }
 
-      this.NumArt = this.articoli.length;
-      console.log(this.articoli.length)});
-    }
-  
+  Modifica(CodArt: string | number) {
+    console.log(`Modifica articolo ${CodArt}`);
+
+    this.router.navigate(['newart',CodArt]);
+
+  }
+
 }
