@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { ApiMsg, Articoli } from 'src/app/articoli/articoli.component';
 
 @Injectable({
@@ -17,7 +18,7 @@ export class ArticoliDataService {
     return this.httpClient.get<Articoli[]>(`http://${this.server}:${this.port}/api/articoli/cerca/descrizione/${descrizione}`);
   }
 
-  getArticoliByCodArt(codArt: String) {
+  getArticoliByCodArt(codArt: String) : Observable<Articoli> {
     return this.httpClient.get<Articoli>(`http://${this.server}:${this.port}/api/articoli/cerca/codice/${codArt}`);
   }
 
@@ -25,8 +26,8 @@ export class ArticoliDataService {
     return this.httpClient.get<Articoli>(`http://${this.server}:${this.port}/api/articoli/cerca/ean/${barcode}`);
   }
 
-  delArticoloByCodArt(codart: String) {
-    return this.httpClient.delete<ApiMsg>(`http://${this.server}:${this.port}/api/articoli/elimina/${codart}`);
+  delArticoloByCodArt(codArt: String) {
+    return this.httpClient.delete<ApiMsg>(`http://${this.server}:${this.port}/api/articoli/elimina/${codArt}`);
   }
 
   updArticolo(articolo: Articoli) {

@@ -9,7 +9,7 @@ import { AuthappService } from '../services/authapp.service';
 })
 export class LoginComponent implements OnInit {
 
-  userid = ''
+  userId = ''
   password = ''
   autenticato = true
   consentito = false
@@ -23,23 +23,13 @@ export class LoginComponent implements OnInit {
 
   gestAut() {
 
-    if (this.BasicAuth.autentica(this.userid, this.password)){
+    if (this.BasicAuth.autentica(this.userId, this.password)){
       this.autenticato = true;
-      this.route.navigate(['welcome', this.userid])
+      this.route.navigate(['welcome', this.userId])
     }else{
       this.autenticato = false;
     }
 
-    /*if (this.userid === 'Alex' && this.password === '123_Stella') {
-      this.autenticato = true;
-      this.route.navigate(['welcome', this.userid])
-      this.consentito = true;
-    }
-    else{
-      this.autenticato = false;
-      this.consentito = false;
-    }
-    */
   }
 
 }

@@ -10,7 +10,7 @@ import { ArticoliDataService } from '../services/data/articoli-data.service';
 })
 export class NewartComponent implements OnInit {
 
-  CodArt: string = '';
+  codArt: string = '';
   articolo!: Articoli;
   Conferma: string = '';
   Errore: string = '';
@@ -57,7 +57,7 @@ export class NewartComponent implements OnInit {
     },
     {
       id: 17,
-      descrizione: "PASTECCERIA"
+      descrizione: "PASTICCERIA"
     },
     {
       id: 20,
@@ -86,23 +86,23 @@ export class NewartComponent implements OnInit {
     {
       id: 90,
       descrizione: "EXTRA ALIMENTARI"
-    }
+    },
 
-  ]
+  ];
 
-  constructor(private route: ActivatedRoute, private router: Router, private articoliService: ArticoliDataService) { }
+  constructor(private route: ActivatedRoute, private articoliService: ArticoliDataService, private router: Router,) { }
 
   ngOnInit() {
 
-    this.CodArt = this.route.snapshot.params['codart'];
+    this.codArt = this.route.snapshot.params['codArt'];
 
-    this.articolo = new Articoli("-1","","",0,0,0,"1 ",new Date(), new FamAss(1,""), new Iva(22,"",22));
+    this.articolo = new Articoli("","","",0,0,0,"1 ",new Date(), new FamAss(1,""), new Iva(22,"",22));
 
-    if (this.CodArt != "-1") {
+    if (this.codArt != "-1") {
 
       this.IsModifica = true;
     
-      this.articoliService.getArticoliByCodArt(this.CodArt).subscribe(
+      this.articoliService.getArticoliByCodArt(this.codArt).subscribe(
         response => {
 
           this.articolo = response;
@@ -111,7 +111,7 @@ export class NewartComponent implements OnInit {
         error => {
           console.log(error.error.messaggio);
         }
-      )
+      );
     }
     else
       this.IsModifica = false;
@@ -119,7 +119,7 @@ export class NewartComponent implements OnInit {
 
   abort() {
 
-    this.router.navigate(['articoli', this.CodArt]);
+    this.router.navigate(['articoli', this.codArt]);
 
   }
 
@@ -128,16 +128,16 @@ export class NewartComponent implements OnInit {
     this.Conferma = '';
     this.Errore = '';
 
-    if (this.CodArt === "-1") {
+    if (this.codArt === "-1") {
       this.articoliService.insArticolo(this.articolo).subscribe(
 
         response => { 
-          console.log(response);
 
           this.apiMsg = response;
           this.Conferma = this.apiMsg.message;
           
           console.log(this.Conferma);
+          this.router.navigate(['newArt', this.articolo.codArt]);
 
         },
         error => {
@@ -154,14 +154,11 @@ export class NewartComponent implements OnInit {
       this.articoliService.updArticolo(this.articolo).subscribe(
 
         response => { 
-          console.log(response);
 
           this.apiMsg = response;
           this.Conferma = this.apiMsg.message;
           
           console.log(this.Conferma);
-
-          this.router.navigate(['newart', this.articolo.codArt]);
 
         
         },

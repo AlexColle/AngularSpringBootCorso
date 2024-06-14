@@ -5,7 +5,7 @@ import { ArticoliDataService } from '../services/data/articoli-data.service';
 export class Articoli {
 
   constructor(
-    public codArt: string,
+    public codArt: string = "",
     public descrizione: string,
     public um: string,
     public pzCart: number,
@@ -64,7 +64,7 @@ export class ArticoliComponent implements OnInit {
 
   filter: string = '';
   articolo!: Articoli;
-  articoli!: Articoli[];
+  articoli: Articoli[] = [];
   
   constructor(private route: ActivatedRoute, private router: Router, private articoliService: ArticoliDataService) { }
 
@@ -114,19 +114,16 @@ export class ArticoliComponent implements OnInit {
             this.NumArt = this.articoli.length
             console.log(this.articoli.length);
 
-          },
-          error => {
-            
           }
         )
       } 
     )
   }
 
-  Elimina(CodArt: string) {
-    console.log(`Eliminazione articolo ${CodArt}`);
+  Elimina(codArt: string) {
+    console.log(`Eliminazione articolo ${codArt}`);
 
-    this.articoliService.delArticoloByCodArt(CodArt).subscribe(
+    this.articoliService.delArticoloByCodArt(codArt).subscribe(
       response => {
         
         this.refresh();
@@ -138,10 +135,10 @@ export class ArticoliComponent implements OnInit {
     
   }
 
-  Modifica(CodArt: string | number) {
-    console.log(`Modifica articolo ${CodArt}`);
+  Modifica(codArt: string ) {
+    console.log(`Modifica articolo ${codArt}`);
 
-    this.router.navigate(['newart',CodArt]);
+    this.router.navigate(['newart',codArt]);
 
   }
 

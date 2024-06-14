@@ -12,10 +12,10 @@ const routes: Routes = [
   {path:'', component : LoginComponent},
   {path:'index', component : LoginComponent},
   {path:'login', component : LoginComponent},
-  {path:'welcome/:userid', component : WelcomeComponent, canActivate:[RouteGuardService]},
+  {path:'welcome/:userId', component : WelcomeComponent, canActivate:[RouteGuardService]},
   {path:'articoli', component : ArticoliComponent, canActivate:[RouteGuardService]},
   {path:'articoli/:filter', component : ArticoliComponent, canActivate:[RouteGuardService]},
-  {path:'newart/:codart', component : NewartComponent, canActivate:[RouteGuardService]},
+  {path:'newart/:codArt', component : NewartComponent, canActivate:[RouteGuardService]},
   {path:'logout', component : LogoutComponent},
   {path:'**', component : ErrorComponent}
 ];
