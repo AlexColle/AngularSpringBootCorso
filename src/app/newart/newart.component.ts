@@ -125,9 +125,6 @@ export class NewartComponent implements OnInit {
 
   salva() {
 
-    this.Conferma = '';
-    this.Errore = '';
-
     if (this.codArt === "-1") {
       this.articoliService.insArticolo(this.articolo).subscribe(
 
@@ -137,7 +134,7 @@ export class NewartComponent implements OnInit {
           this.Conferma = this.apiMsg.message;
           
           console.log(this.Conferma);
-          this.router.navigate(['newArt', this.articolo.codArt]);
+          
 
         },
         error => {
@@ -159,6 +156,7 @@ export class NewartComponent implements OnInit {
           this.Conferma = this.apiMsg.message;
           
           console.log(this.Conferma);
+          this.router.navigate(['newArt', this.articolo.codArt]);
 
         
         },

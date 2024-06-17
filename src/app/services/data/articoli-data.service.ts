@@ -13,20 +13,20 @@ export class ArticoliDataService {
 
   constructor(private httpClient:HttpClient) { }
 
-  getBasicAuthHeader() {
+  /*getBasicAuthHeader() {
 
     let UserId = "Alex";
     let Password = "123_Stella";
 
     let retVal = "Basic " + window.btoa(UserId + ":" + Password);
     return retVal;
-  }
+  }*/
 
   getArticoliByDescription(descrizione: String) {
 
-    let headers = new HttpHeaders({Authorization: this.getBasicAuthHeader()})
+    /*let headers = new HttpHeaders({Authorization: this.getBasicAuthHeader()})*/
 
-    return this.httpClient.get<Articoli[]>(`http://${this.server}:${this.port}/api/articoli/cerca/descrizione/${descrizione}`, {headers: headers});
+    return this.httpClient.get<Articoli[]>(`http://${this.server}:${this.port}/api/articoli/cerca/descrizione/${descrizione}`);
   }
 
   getArticoliByCodArt(codArt: String) : Observable<Articoli> {
@@ -46,7 +46,7 @@ export class ArticoliDataService {
   }
 
   insArticolo(articolo: Articoli) {
-    return this.httpClient.post<ApiMsg>(`http://${this.server}:${this.port}/api/articoli/inserisci`, articolo);
+    return this.httpClient.post<ApiMsg>(`http://${this.server}:${this.port}/api/articoli/inserisci`, articolo)
   }
   
 }
