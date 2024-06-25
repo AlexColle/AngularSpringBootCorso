@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+/*import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { port, server } from '../app.constants';
@@ -33,7 +33,7 @@ export class AuthappService {
       return false;
     }
   }
-    */
+    
 
   autenticaService(userId : string, password : string){
     let AuthString = "Basic " + window.btoa(userId + ":" + password)
@@ -69,4 +69,4 @@ export class AuthappService {
     sessionStorage.removeItem("Utente");
   }
 
-}
+}*/

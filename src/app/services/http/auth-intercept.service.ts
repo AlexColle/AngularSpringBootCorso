@@ -1,14 +1,15 @@
 import { HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthappService } from '../authapp.service';
+//import { AuthappService } from '../authapp.service';
 import { Observable } from 'rxjs';
+import { AuthJWTService } from '../authappJWTservice';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthInterceptService implements HttpInterceptor {
 
-  constructor(private BasicAuth: AuthappService) { }
+  constructor(private BasicAuth: AuthJWTService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable <any> | any {
 
