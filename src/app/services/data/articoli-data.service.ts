@@ -26,10 +26,7 @@ export class ArticoliDataService {
   }
 
   getArticoliByDescription(descrizione: String) {
-
-    let headers = new HttpHeaders({Authorization: this.getBasicAuthHeader()})
-
-    return this.httpClient.get<Articoli[]>(`http://${server}:${port}/api/articoli/cerca/descrizione/${descrizione}`,{headers});
+    return this.httpClient.get<Articoli[]>(`http://${server}:${port}/api/articoli/cerca/descrizione/${descrizione}`);
   }
 
   getArticoliByCodArt(codArt: String) : Observable<Articoli> {

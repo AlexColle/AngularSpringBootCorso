@@ -8,6 +8,7 @@ import { LogoutComponent } from './logout/logout.component';
 import { RouteGuardService } from './services/route-guard.service';
 import { NewartComponent } from './newart/newart.component';
 import { Ruoli } from 'src/models/Ruoli';
+import { ForbiddenComponent } from './forbidden/forbidden.component';
 
 const routes: Routes = [
   {path:'', component : LoginComponent},
@@ -18,6 +19,7 @@ const routes: Routes = [
   {path:'articoli/:filter', component : ArticoliComponent, canActivate:[RouteGuardService], data: {roles : [Ruoli.utente]}},
   {path:'newart/:codArt', component : NewartComponent, canActivate:[RouteGuardService], data: {roles : [Ruoli.amministratore]}},
   {path:'logout', component : LogoutComponent},
+  {path:'forbidden', component : ForbiddenComponent},
   {path:'**', component : ErrorComponent}
 ];
 
